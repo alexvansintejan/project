@@ -82,6 +82,22 @@ async def register_pey(payload: Request):
                   VALUES ("{Quantity}", "{Quote_id}", "{Product_id}")
                   '''.format(Quantity = values_dict['Quantity'],Quote_id = str(values_dict['Quote_id']), Product_id = str(values_dict['Product_id'])))
     return "Quote_line inserted"
+    
+
+@app.post("/update_quote")
+async def create_quote(payload: Request):
+
+    values_dict = await payload.json()
+    dbase = sqlite3.connect('API_database .db', isolation_level=None)
+
+    query_active = dbase.execute(''' 
+                    UPDATE Quote
+                    SET Accepted = 1
+                    WHERE Quote_id = {Quote_id}
+                    '''.format(Quote_id = values_dict['Quote_id']))
+    dbase.close()
+    return "Quote Activated"
+
 
     
     
