@@ -34,8 +34,10 @@ Dbase.execute (''' CREATE TABLE IF NOT EXISTS Quote (
     Accepted BIT, 
     Client_id INT NOT NULL,
     Companies_id INT NOT NULL, 
+    Product_id INT NOT NULL,  
     FOREIGN KEY (Companies_id) REFERENCES Companies(Companies_id),
     FOREIGN KEY (Client_id) REFERENCES Clients(Client_id)
+    FOREIGN KEY (Product_id) REFERENCES Product(Product_id)
     )''') 
 
 Dbase.execute (''' CREATE TABLE IF NOT EXISTS Product (
@@ -48,16 +50,6 @@ Dbase.execute (''' CREATE TABLE IF NOT EXISTS Product (
     FOREIGN KEY (Companies_id) REFERENCES Companies(Companies_id)
 
     )''')
-
-
-Dbase.execute (''' CREATE TABLE IF NOT EXISTS Subscription ( 
-    Subscription_id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, 
-    Client_id INT NOT NULL, 
-    Product_id INT NOT NULL,  
-    Active BIT, 
-    FOREIGN KEY (Client_id) REFERENCES Clients(Client_id), 
-    FOREIGN KEY (Product_id) REFERENCES Product(Product_id) 
-    ) ''') 
 
 
 Dbase.execute('''CREATE TABLE IF NOT EXISTS Invoice (
@@ -82,8 +74,7 @@ Dbase.execute(''' CREATE TABLE IF NOT EXISTS Quote_lines (
     FOREIGN KEY (Quote_id) REFERENCES Quote(Quote_id),
     FOREIGN KEY (Product_id) REFERENCES Product(Product_id)
     )''')
-
-
+    
 
 def insert_client(clientid, name, email, phone, creditcard):
     Dbase.execute('''
@@ -104,10 +95,3 @@ def insert_companies(VAT_id, Name, Adress, Bank):
         VALUES(?,?,?,?)''', (VAT_id, Name, Adress, Bank))
 
 
-def insert_subscription (Subscription_id, VAT_id, Client_id, Quote_id, Active, Payment):
-    Dbase.execute('''
-        INSERT INTO Subscription (Subscription_id, VAT_id, Client_id,Quote_id, Active, Payment)
-        VALUES(?,?,?,?,?,?)''', (Subscription_id, VAT_id, Client_id, Quote_id, Active, Payment))
-    print("Subscription inserted")
-
-Dbase.close()
