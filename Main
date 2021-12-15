@@ -130,8 +130,6 @@ async def update_quote(payload: Request):
 
     dbase.close()
     return "Quote Activated"
-
-
     
     
     
