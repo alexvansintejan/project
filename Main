@@ -98,7 +98,7 @@ async def create_quote(payload: Request):
     dbase.close()
     return "Quote Activated"
     
-    @app.post("/update_quote") # +creation invoice 
+@app.post("/update_quote") # +creation invoice 
 async def update_quote(payload: Request):
 
     values_dict = await payload.json()
